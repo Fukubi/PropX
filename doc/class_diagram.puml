@@ -1,0 +1,176 @@
+@startuml class_diagram
+
+abstract class Property {
+    - unsigned int qtdFloors
+    - unsigned int number;
+    - unsigned float size
+    - unsigned float price
+    - bool isMobiliated
+    - string street;
+    - string district;
+    - string state;
+    - string city;
+    - Coordinate coordinates
+
+    + void setQtdFloors(unsigned int qtdFloors)
+    + void setNumber(unsigned int number);
+    + void setSize(unsigned float size)
+    + void setPrice(unsigned float price)
+    + void setIsMobiliated(bool isMobiliated)
+    + void setCoordinates(float x, float y);
+
+    + unsigned int getQtdFloors();
+    + unsigned int getNumber();
+    + unsigned float getSize();
+    + unsigned float getPrice();
+    + bool getIsMobiliated();
+    + Coordinate getCoordinates();
+}
+
+class House {
+}
+
+class Apartment {
+    - unsigned int floor;
+
+    + void setFloor(unsigned int floor);
+
+    + unsigned int getFloor();
+}
+
+enum PaymentMethod {
+    DEBIT_CARD
+    CREDIT_CARD
+    MONEY
+    PIX
+    BANK_SLIP
+    BERRIES
+} 
+
+enum PaymentStatus {
+    PENDING
+    ACCEPTED
+    REJECTED
+    CANCELED
+}
+
+class Purchase {
+    - vector<Property> properties
+    - User user
+    - Person client
+    - Person seller
+    - PaymentMethod paymentMethod
+    - PaymentStatus paymentStatus
+
+    + Purchase()
+
+    + void setProperties(vector<Property> properties)
+    + void setUser(User user)
+    + void setClient(Person client)
+    + void setSeller(Person seller)
+    + void setPaymentMethod(PaymentMethod paymentMethod)
+    + void setPaymentStatus(PaymentStatus paymentStatus)
+
+    + vector<Property> getProperty()
+    + User getUser()
+    + Person getClient()
+    + Person getSeller()
+    + PaymentMethod getPaymentMethod()
+    + PaymentStatus getPaymentStatus()
+}
+
+abstract class Person {
+    - string name
+    - string cpf
+    - string rg
+    - string birthday
+
+    + Person()
+
+    + void setName(string name)
+    + void setCpf(string cpf)
+    + void setRg(string rg)
+    + void setBirthday(string birthday)
+
+    + string getName()
+    + string getCpf()
+    + string getRg()
+    + string getBirthday()
+}
+
+class ClientPF {
+
+}
+
+class ClientPJ {
+    - string cnpj
+
+    + ClientPJ()
+    + void setCnpj(string cnpj)
+    + string getCnpj()
+}
+
+class Seller {
+    - string office
+
+    + Seller()
+    + void setOffice(string office)
+    + string getOffice()
+}
+
+class User {
+    - string username
+    - string password
+    - Encryption crypto
+
+    + User()
+
+    + void setUsername(string username)
+    + void setPassword(string password)
+
+    + string getUsername();
+    + string getPassword();
+}
+
+class Encryption {
+    + Encryption()
+
+    + string encrypt(string text)
+    + string decrypt(string text)
+    + string compare(string text)
+}
+
+class PlainTextEncryption {
+    + PlainTextEncryption()
+
+    + string encrypt(string text)
+    + string decrypt(string text)
+}
+
+class BCryptEncryption {
+    + BCryptEncryption()
+
+    + string encrypt(string text)
+    + string decrypt(string text)
+}
+
+House --|> Property
+Apartment --|> Property
+
+PaymentMethod --* Purchase
+PaymentStatus --* Purchase
+
+Purchase --* Property
+Purchase --* User
+
+
+User --* Encryption
+
+PlainTextEncryption --|> Encryption
+BCryptEncryption --|> Encryption
+
+ClientPF --|> Person
+ClientPJ --|> Person
+Seller --|> Person
+
+User --* Person
