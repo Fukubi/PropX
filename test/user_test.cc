@@ -1,4 +1,5 @@
 #include "cryptography.h"
+#include "person.h"
 #include "user.h"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -15,6 +16,7 @@ TEST(UserTest, Initialize) {
 
   ASSERT_EQ(user->getUsername(), "");
   ASSERT_EQ(user->getAuthorization(), user::Authorization::CLIENT);
+  ASSERT_EQ(user->getPerson(), nullptr);
 }
 
 TEST(UserTest, SetsShouldChangeValues) {
@@ -51,4 +53,18 @@ TEST(UserTest, ShouldBePossibleDifferentAuthorizations) {
       std::make_unique<user::User>(user::Authorization::ADMINISTRATOR);
 
   EXPECT_EQ(user->getAuthorization(), user::Authorization::ADMINISTRATOR);
+}
+
+TEST(UserTest, SetPersonDataOfUser) {
+  std::unique_ptr<user::User> user = std::make_unique<user::User>();
+  std::shared_ptr<person::Person> person = std::make_shared<person::ClientPF>();
+
+  person->setName("John");
+  person->setCpf("167.317.040-40");
+  person->setRg("31.732.999-6");
+  person->setBirthday("01/01/2000");
+
+  user->setPerson(person);
+
+  EXPECT_EQ(user->getPerson()->getName(), "John");
 }

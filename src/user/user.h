@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cryptography.h"
+#include "person.h"
 #include <memory>
 #include <string>
 
@@ -27,6 +28,9 @@ public:
   /// @brief Get the authorization level of User
   /// @return The authorization level of User
   Authorization getAuthorization();
+  /// @brief Get the Person assigned to this User
+  /// @return The Person assigned to this User
+  std::shared_ptr<person::Person> getPerson();
 
   /// @brief Set a new username to user
   /// @param username The new username
@@ -37,6 +41,9 @@ public:
   /// @brief Set a new type of encryption
   /// @param cryptography The reference to the Cryptography used to encrypt
   void setEncryption(std::unique_ptr<cryptography::Cryptography> cryptography);
+  /// @brief Set the Person data of the user
+  /// @param person The Person data of the user
+  void setPerson(std::shared_ptr<person::Person> person);
 
   /// @brief Execute login to user comparing the requested password to the user
   /// password
@@ -53,5 +60,7 @@ private:
   std::unique_ptr<cryptography::Cryptography> cryptography;
   /// @brief The authorization level of the user
   Authorization authorization;
+  /// @brief The Person associated to this user
+  std::shared_ptr<person::Person> person;
 };
 } // namespace user
