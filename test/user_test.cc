@@ -14,6 +14,7 @@ TEST(UserTest, Initialize) {
   std::unique_ptr<user::User> user = std::make_unique<user::User>();
 
   ASSERT_EQ(user->getUsername(), "");
+  ASSERT_EQ(user->getAuthorization(), user::Authorization::CLIENT);
 }
 
 TEST(UserTest, SetsShouldChangeValues) {
@@ -43,4 +44,11 @@ TEST(UserTest, ShouldLoginWithCorrectPassword) {
 
   EXPECT_TRUE(user->login("passwd"));
   EXPECT_FALSE(user->login("passwe"));
+}
+
+TEST(UserTest, ShouldBePossibleDifferentAuthorizations) {
+  std::unique_ptr<user::User> user =
+      std::make_unique<user::User>(user::Authorization::ADMINISTRATOR);
+
+  EXPECT_EQ(user->getAuthorization(), user::Authorization::ADMINISTRATOR);
 }

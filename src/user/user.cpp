@@ -3,9 +3,14 @@
 namespace user {
 User::User()
     : username(""), password(""),
-      cryptography(std::make_unique<cryptography::PlainText>()) {}
+      cryptography(std::make_unique<cryptography::PlainText>()),
+      authorization(Authorization::CLIENT) {}
+
+User::User(Authorization authorization) { this->authorization = authorization; }
 
 std::string User::getUsername() { return username; }
+
+Authorization User::getAuthorization() { return this->authorization; }
 
 void User::setUsername(std::string username) { this->username = username; }
 

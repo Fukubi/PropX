@@ -30,7 +30,18 @@ target_link_libraries(
   gmock
 )
 
+add_executable(
+  person_test
+  person_test.cc
+)
+target_link_libraries(
+  person_test
+  person
+  GTest::gtest_main
+)
+
 include(GoogleTest)
 gtest_discover_tests(property_test)
 gtest_discover_tests(user_test)
 gtest_discover_tests(cryptography_test)
+gtest_discover_tests(person_test)
