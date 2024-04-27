@@ -6,7 +6,10 @@ User::User()
       cryptography(std::make_unique<cryptography::PlainText>()),
       authorization(Authorization::CLIENT) {}
 
-User::User(Authorization authorization) { this->authorization = authorization; }
+User::User(Authorization authorization)
+    : username(""), password(""),
+      cryptography(std::make_unique<cryptography::PlainText>()),
+      authorization(authorization) {}
 
 std::string User::getUsername() { return username; }
 

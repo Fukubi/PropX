@@ -51,8 +51,11 @@ TEST(UserTest, ShouldLoginWithCorrectPassword) {
 TEST(UserTest, ShouldBePossibleDifferentAuthorizations) {
   std::unique_ptr<user::User> user =
       std::make_unique<user::User>(user::Authorization::ADMINISTRATOR);
+  
+  user->setPassword("passwd");
 
   EXPECT_EQ(user->getAuthorization(), user::Authorization::ADMINISTRATOR);
+  EXPECT_TRUE(user->login("passwd"));
 }
 
 TEST(UserTest, SetPersonDataOfUser) {

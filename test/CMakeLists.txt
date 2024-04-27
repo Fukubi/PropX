@@ -40,8 +40,19 @@ target_link_libraries(
   GTest::gtest_main
 )
 
+add_executable(
+  purchase_test
+  purchase_test.cc
+)
+target_link_libraries(
+  purchase_test
+  purchase
+  GTest::gtest_main
+)
+
 include(GoogleTest)
 gtest_discover_tests(property_test)
 gtest_discover_tests(user_test)
 gtest_discover_tests(cryptography_test)
 gtest_discover_tests(person_test)
+gtest_discover_tests(purchase_test)
