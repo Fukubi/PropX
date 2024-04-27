@@ -1,59 +1,34 @@
 #include "property.h"
 
 namespace property {
-Property::Property() {
-  this->size = 0;
-  this->qtdBathroom = 0;
-  this->qtdRoom = 0;
-  this->price = 0;
-  this->mobiliated = false;
-  this->livingRoom = false;
-  this->kitchen = false;
-}
+Property::Property() : number(0), price(0.0f), qtdFloors(0), size(0) {}
 
-Coordinates Property::getCoordinates() { return coordinates; }
+int Property::getNumber() { return number; }
 
-float Property::getSize() { return this->size; }
+float Property::getPrice() { return price; }
 
-float Property::getQtdBathroom() { return this->qtdBathroom; }
+int Property::getQtdFloors() { return qtdFloors; }
 
-float Property::getQtdRoom() { return this->qtdRoom; }
+float Property::getSize() { return size; }
 
-float Property::getPrice() { return this->price; }
+std::string Property::getState() { return state; }
 
-bool Property::isMobiliated() { return this->mobiliated; }
+std::string Property::getStreet() { return street; }
 
-bool Property::hasLivingRoom() { return this->livingRoom; }
+std::string Property::getCity() { return city; }
 
-bool Property::hasKitchen() { return this->kitchen; }
+std::string Property::getDistrict() { return district; }
 
-void Property::setCoordinates(float x, float y) {
-  coordinates['x'] = x;
-  coordinates['y'] = y;
-}
+bool Property::getIsMobiliated() { return isMobiliated; }
 
-void Property::setSize(float size) {
-  if (size < 0) {
-    size = 0;
+double Property::getCoordinates(char axis) { return coordinate[axis]; }
+
+void Property::setNumber(int number) {
+  if (number < 0) {
+    number = 0;
   }
 
-  this->size = size;
-}
-
-void Property::setQtdBathroom(int qtdBathroom) {
-  if (qtdBathroom < 0) {
-    qtdBathroom = 0;
-  }
-
-  this->qtdBathroom = qtdBathroom;
-}
-
-void Property::setQtdRoom(int qtdRoom) {
-  if (qtdRoom < 0) {
-    qtdRoom = 0;
-  }
-
-  this->qtdRoom = qtdRoom;
+  this->number = number;
 }
 
 void Property::setPrice(float price) {
@@ -63,12 +38,36 @@ void Property::setPrice(float price) {
 
   this->price = price;
 }
+
+void Property::setQtdFloors(int qtdFloors) {
+  if (qtdFloors < 0) {
+    qtdFloors = 0;
+  }
+
+  this->qtdFloors = qtdFloors;
+}
+
+void Property::setSize(int size) {
+  if (size < 0) {
+    size = 0;
+  }
+
+  this->size = size;
+}
+
+void Property::setState(std::string state) { this->state = state; }
+
+void Property::setStreet(std::string street) { this->street = street; }
+
+void Property::setCity(std::string city) { this->city = city; }
+
+void Property::setDistrict(std::string district) { this->district = district; }
+
 void Property::setIsMobiliated(bool isMobiliated) {
-  this->mobiliated = isMobiliated;
+  this->isMobiliated = isMobiliated;
 }
-void Property::setHasLivingRoom(bool hasLivingRoom) {
-  this->livingRoom = hasLivingRoom;
+
+void Property::setCoordinates(char axis, double value) {
+  coordinate[axis] = value;
 }
-void Property::setHasKitchen(bool hasKitchen) { this->kitchen = hasKitchen; }
-House::House() : Property() {}
 } // namespace property

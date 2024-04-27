@@ -4,55 +4,44 @@
 #include <string>
 
 namespace property {
-typedef std::map<char, float> Coordinates;
+using Coordinates = std::map<char, float>;
 
 class Property {
 public:
   Property();
 
-  Coordinates getCoordinates();
-  float getSize();
-  float getQtdBathroom();
-  float getQtdRoom();
+  int getNumber();
   float getPrice();
-  bool isMobiliated();
-  bool hasLivingRoom();
-  bool hasKitchen();
+  int getQtdFloors();
+  float getSize();
+  std::string getState();
+  std::string getStreet();
+  std::string getCity();
+  std::string getDistrict();
+  bool getIsMobiliated();
+  double getCoordinates(char axis);
 
-  void setCoordinates(float x, float y);
-  void setSize(float size);
-  void setQtdBathroom(int qtdBathroom);
-  void setQtdRoom(int qtdRoom);
+  void setNumber(int number);
   void setPrice(float price);
+  void setQtdFloors(int qtdFloors);
+  void setSize(int size);
+  void setState(std::string state);
+  void setStreet(std::string street);
+  void setCity(std::string city);
+  void setDistrict(std::string district);
   void setIsMobiliated(bool isMobiliated);
-  void setHasLivingRoom(bool hasLivingRoom);
-  void setHasKitchen(bool hasKitchen);
+  void setCoordinates(char axis, double value);
 
 private:
-  Coordinates coordinates;
-  float size;
-  int qtdBathroom;
-  int qtdRoom;
+  int number;
   float price;
-  bool mobiliated;
-  bool livingRoom;
-  bool kitchen;
-};
-
-class House : public Property {
-public:
-  House();
-
-private:
-  std::string city;
+  int qtdFloors;
+  float size;
   std::string state;
   std::string street;
+  std::string city;
   std::string district;
-  std::string cep;
-  int number;
+  bool isMobiliated;
+  std::map<char, double> coordinate;
 };
-
-class Apartment : public Property {};
-
-class Address {};
 } // namespace property

@@ -1,5 +1,3 @@
-enable_testing()
-
 add_executable(
   property_test
   property_test.cc
