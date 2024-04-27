@@ -6,3 +6,6 @@
 	path = ext/spdlog
 	url = https://github.com/gabime/spdlog.git
 	branch = v1.x
+[submodule "ext/Bcrypt"]
+	path = ext/Bcrypt
+	url = https://github.com/hilch/Bcrypt.cpp

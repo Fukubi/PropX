@@ -2,8 +2,8 @@
 #include <gtest/gtest.h>
 
 TEST(PropertyTest, Initialization) {
-  std::shared_ptr<property::Property> property =
-      std::make_shared<property::Property>();
+  std::unique_ptr<property::Property> property =
+      std::make_unique<property::Property>();
 
   ASSERT_EQ(property->getQtdFloors(), 0);
   ASSERT_EQ(property->getNumber(), 0);
@@ -19,8 +19,8 @@ TEST(PropertyTest, Initialization) {
 }
 
 TEST(PropertyTest, ValuesCantBeNegative) {
-  std::shared_ptr<property::Property> property =
-      std::make_shared<property::Property>();
+  std::unique_ptr<property::Property> property =
+      std::make_unique<property::Property>();
 
   property->setQtdFloors(-1);
   property->setNumber(-1);
@@ -34,8 +34,8 @@ TEST(PropertyTest, ValuesCantBeNegative) {
 }
 
 TEST(PropertyTest, SetsShouldChangeValues) {
-  std::shared_ptr<property::Property> property =
-      std::make_shared<property::Property>();
+  std::unique_ptr<property::Property> property =
+      std::make_unique<property::Property>();
 
   property->setQtdFloors(1);
   property->setNumber(203);
@@ -48,7 +48,6 @@ TEST(PropertyTest, SetsShouldChangeValues) {
   property->setCity("Pedra branca");
   property->setCoordinates('x', -7.427104447161748);
   property->setCoordinates('y', -38.069099913406326);
-
 
   ASSERT_EQ(property->getQtdFloors(), 1);
   ASSERT_EQ(property->getNumber(), 203);

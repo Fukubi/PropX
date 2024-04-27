@@ -8,5 +8,29 @@ target_link_libraries(
   GTest::gtest_main
 )
 
+add_executable(
+  user_test
+  user_test.cc
+)
+target_link_libraries(
+  user_test
+  user
+  GTest::gtest_main
+  gmock
+)
+
+add_executable(
+  cryptography_test
+  cryptography_test.cc
+)
+target_link_libraries(
+  cryptography_test
+  cryptography
+  GTest::gtest_main
+  gmock
+)
+
 include(GoogleTest)
 gtest_discover_tests(property_test)
+gtest_discover_tests(user_test)
+gtest_discover_tests(cryptography_test)
