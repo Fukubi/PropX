@@ -17,6 +17,8 @@ public:
 
   void initializePurchasesTable();
 
+  void on_btnCreateProperty_pressed();
+
 private:
   Ui::Home *ui;
   std::shared_ptr<user::User> user;

@@ -4,8 +4,10 @@ qt_standard_project_setup()
 qt_add_executable(PropX
     ui/login_window.cpp
     ui/home_window.cpp
+    ui/create_property.cpp
     ui/login-window.ui
     ui/home-window.ui
+    ui/create-property.ui
     main.cpp
 )
 
