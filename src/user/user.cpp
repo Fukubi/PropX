@@ -23,6 +23,8 @@ User::User(Authorization authorization, long id)
 
 std::string User::getUsername() { return username; }
 
+std::string User::getPassword() { return password; }
+
 Authorization User::getAuthorization() { return this->authorization; }
 
 std::shared_ptr<person::Person> User::getPerson() { return this->person; }

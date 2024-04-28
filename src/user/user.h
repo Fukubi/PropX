@@ -35,6 +35,9 @@ public:
   /// @brief Get username of User
   /// @return The username
   std::string getUsername();
+  /// @brief Get the password of User
+  /// @return The password
+  std::string getPassword();
   /// @brief Get the authorization level of User
   /// @return The authorization level of User
   Authorization getAuthorization();
