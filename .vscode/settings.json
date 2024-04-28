@@ -64,6 +64,11 @@
         "chrono": "cpp",
         "format": "cpp",
         "span": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "bitset": "cpp",
+        "codecvt": "cpp",
+        "regex": "cpp",
+        "source_location": "cpp",
+        "ranges": "cpp"
     }
 }

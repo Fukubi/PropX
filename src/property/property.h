@@ -14,6 +14,11 @@ public:
   /// @brief Default constructor with everything blank
   Property();
 
+  /// @brief Set a ID but use the others value as default (as in the default
+  /// constructor)
+  /// @param id The ID of the Property
+  Property(long id);
+
   /// @brief Get the number of the property
   /// @return The number of the property
   int getNumber();
@@ -45,6 +50,9 @@ public:
   /// @param axis The axis of the coordinate
   /// @return The coordinate value
   double getCoordinates(char axis);
+  /// @brief Get the ID of the Property
+  /// @return The ID of the Property
+  long getId();
 
   /// @brief Set the number to the property
   /// @param number The number
@@ -79,6 +87,8 @@ public:
   void setCoordinates(char axis, double value);
 
 private:
+  /// @brief The ID of the property in the database
+  long id;
   /// @brief The number of the property
   int number;
   /// @brief The price of the property

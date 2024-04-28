@@ -14,6 +14,7 @@ public:
 TEST(UserTest, Initialize) {
   std::unique_ptr<user::User> user = std::make_unique<user::User>();
 
+  ASSERT_EQ(user->getId(), 0);
   ASSERT_EQ(user->getUsername(), "");
   ASSERT_EQ(user->getAuthorization(), user::Authorization::CLIENT);
   ASSERT_EQ(user->getPerson(), nullptr);
@@ -51,7 +52,7 @@ TEST(UserTest, ShouldLoginWithCorrectPassword) {
 TEST(UserTest, ShouldBePossibleDifferentAuthorizations) {
   std::unique_ptr<user::User> user =
       std::make_unique<user::User>(user::Authorization::ADMINISTRATOR);
-  
+
   user->setPassword("passwd");
 
   EXPECT_EQ(user->getAuthorization(), user::Authorization::ADMINISTRATOR);
@@ -70,4 +71,14 @@ TEST(UserTest, SetPersonDataOfUser) {
   user->setPerson(person);
 
   EXPECT_EQ(user->getPerson()->getName(), "John");
+}
+
+TEST(UserTest, ShouldStartWithID) {
+  std::unique_ptr<user::User> user = std::make_unique<user::User>(1);
+
+  ASSERT_EQ(user->getId(), 1);
+
+  user = std::make_unique<user::User>(user::Authorization::SELLER, 2);
+
+  ASSERT_EQ(user->getId(), 2);
 }

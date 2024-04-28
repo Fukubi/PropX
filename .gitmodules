@@ -9,3 +9,6 @@
 [submodule "ext/Bcrypt"]
 	path = ext/Bcrypt
 	url = https://github.com/hilch/Bcrypt.cpp
+[submodule "ext/libpqxx"]
+	path = ext/libpqxx
+	url = https://github.com/jtv/libpqxx

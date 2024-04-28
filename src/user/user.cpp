@@ -4,18 +4,30 @@ namespace user {
 User::User()
     : username(""), password(""),
       cryptography(std::make_unique<cryptography::PlainText>()),
-      authorization(Authorization::CLIENT) {}
+      authorization(Authorization::CLIENT), id(0) {}
+
+User::User(long id)
+    : username(""), password(""),
+      cryptography(std::make_unique<cryptography::PlainText>()),
+      authorization(Authorization::CLIENT), id(id) {}
 
 User::User(Authorization authorization)
     : username(""), password(""),
       cryptography(std::make_unique<cryptography::PlainText>()),
-      authorization(authorization) {}
+      authorization(authorization), id(0) {}
+
+User::User(Authorization authorization, long id)
+    : username(""), password(""),
+      cryptography(std::make_unique<cryptography::PlainText>()),
+      authorization(authorization), id(id) {}
 
 std::string User::getUsername() { return username; }
 
 Authorization User::getAuthorization() { return this->authorization; }
 
 std::shared_ptr<person::Person> User::getPerson() { return this->person; }
+
+long User::getId() { return this->id; }
 
 void User::setUsername(std::string username) { this->username = username; }
 

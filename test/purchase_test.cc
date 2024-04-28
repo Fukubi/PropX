@@ -7,6 +7,7 @@ TEST(PurchaseTest, Initialization) {
   std::unique_ptr<purchase::Purchase> purchase =
       std::make_unique<purchase::Purchase>();
 
+  ASSERT_EQ(purchase->getId(), 0);
   ASSERT_EQ(purchase->getQtdProperties(), 0);
   ASSERT_EQ(purchase->getUserClient(), nullptr);
   ASSERT_EQ(purchase->getUserSeller(), nullptr);
@@ -42,4 +43,11 @@ TEST(PurchaseTest, SetShouldChangeValues) {
   ASSERT_EQ(purchase->getUserSeller()->getUsername(), "seller");
   ASSERT_EQ(purchase->getPaymentMethod(), purchase::PaymentMethod::DEBIT_CARD);
   ASSERT_EQ(purchase->getPaymentStatus(), purchase::PaymentStatus::ACCEPTED);
+}
+
+TEST(PurchaseTest, ShouldStartWithID) {
+  std::unique_ptr<purchase::Purchase> purchase =
+      std::make_unique<purchase::Purchase>(1);
+
+  ASSERT_EQ(purchase->getId(), 1);
 }

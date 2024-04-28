@@ -5,6 +5,7 @@ TEST(PropertyTest, Initialization) {
   std::unique_ptr<property::Property> property =
       std::make_unique<property::Property>();
 
+  ASSERT_EQ(property->getId(), 0);
   ASSERT_EQ(property->getQtdFloors(), 0);
   ASSERT_EQ(property->getNumber(), 0);
   ASSERT_EQ(property->getSize(), 0);
@@ -60,4 +61,11 @@ TEST(PropertyTest, SetsShouldChangeValues) {
   ASSERT_STREQ(property->getCity().c_str(), "Pedra branca");
   ASSERT_EQ(property->getCoordinates('x'), -7.427104447161748);
   ASSERT_EQ(property->getCoordinates('y'), -38.069099913406326);
+}
+
+TEST(PropertyTest, ShouldStartWithID) {
+  std::unique_ptr<property::Property> property =
+      std::make_unique<property::Property>(1);
+
+  ASSERT_EQ(property->getId(), 1);
 }

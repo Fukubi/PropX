@@ -4,7 +4,12 @@ namespace purchase {
 Purchase::Purchase()
     : properties(), userClient(nullptr), userSeller(nullptr),
       paymentMethod(PaymentMethod::CREDIT_CARD),
-      paymentStatus(PaymentStatus::PENDING) {}
+      paymentStatus(PaymentStatus::PENDING), id(0) {}
+
+Purchase::Purchase(long id)
+    : properties(), userClient(nullptr), userSeller(nullptr),
+      paymentMethod(PaymentMethod::CREDIT_CARD),
+      paymentStatus(PaymentStatus::PENDING), id(id) {}
 
 std::shared_ptr<property::Property> Purchase::getProperty(size_t index) {
   if (index >= getQtdProperties())
@@ -30,6 +35,8 @@ std::shared_ptr<user::User> Purchase::getUserSeller() {
 PaymentMethod Purchase::getPaymentMethod() { return this->paymentMethod; }
 
 PaymentStatus Purchase::getPaymentStatus() { return this->paymentStatus; }
+
+long Purchase::getId() { return this->id; }
 
 void Purchase::setUserClient(std::shared_ptr<user::User> userClient) {
   this->userClient = userClient;

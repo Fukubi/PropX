@@ -1,6 +1,7 @@
+#include <database-connector.h>
 #include <iostream>
 
 int main(int argc, char *argv[]) {
-  std::cout << "Hello, World!\n";
+  database::DatabaseConnector dbConn;
   return 0;
 }

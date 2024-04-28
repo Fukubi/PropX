@@ -20,6 +20,11 @@ public:
   /// set as CREDIT_CARD and the PaymentStatus set as PENDING
   Purchase();
 
+  /// @brief Set a ID but use the other values as default (as in the default
+  /// contructor)
+  /// @param id The ID of the Purchase
+  Purchase(long id);
+
   /// @brief Get the property related to the purchase in specific index
   /// @return The property related to the purchase in the specific index
   std::shared_ptr<property::Property> getProperty(size_t index);
@@ -48,6 +53,10 @@ public:
   /// @return The status of the payment
   PaymentStatus getPaymentStatus();
 
+  /// @brief Get the ID of the purchase
+  /// @return The ID of the purchase
+  long getId();
+
   /// @brief Set the user of the client that bought the properties
   /// @param userClient The user of the client
   void setUserClient(std::shared_ptr<user::User> userClient);
@@ -62,6 +71,8 @@ public:
   void setPaymentStatus(PaymentStatus paymentStatus);
 
 private:
+  /// @brief The ID of the purchase in the database
+  long id;
   /// @brief The properties in this purchase
   std::vector<std::shared_ptr<property::Property>> properties;
   /// @brief The user of the client

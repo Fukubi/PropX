@@ -5,6 +5,7 @@
 TEST(PersonTest, InitializeClientPF) {
   std::unique_ptr<person::Person> person = std::make_unique<person::ClientPF>();
 
+  ASSERT_EQ(person->getId(), 0);
   ASSERT_EQ(person->getName(), "");
   ASSERT_EQ(person->getCpf(), "");
   ASSERT_EQ(person->getRg(), "");
@@ -14,6 +15,7 @@ TEST(PersonTest, InitializeClientPF) {
 TEST(PersonTest, InitializeClientPJ) {
   std::shared_ptr<person::Person> person = std::make_shared<person::ClientPJ>();
 
+  ASSERT_EQ(person->getId(), 0);
   ASSERT_EQ(person->getName(), "");
   ASSERT_EQ(person->getCpf(), "");
   ASSERT_EQ(person->getRg(), "");
@@ -24,6 +26,7 @@ TEST(PersonTest, InitializeClientPJ) {
 TEST(PersonTest, InitializeSeller) {
   std::shared_ptr<person::Person> person = std::make_shared<person::Seller>();
 
+  ASSERT_EQ(person->getId(), 0);
   ASSERT_EQ(person->getName(), "");
   ASSERT_EQ(person->getCpf(), "");
   ASSERT_EQ(person->getRg(), "");
@@ -39,6 +42,7 @@ TEST(PersonTest, SetShouldChangeValuesClientPF) {
   person->setRg("31.732.999-6");
   person->setBirthday("01/01/2000");
 
+  ASSERT_EQ(person->getId(), 0);
   ASSERT_EQ(person->getName(), "John");
   ASSERT_EQ(person->getCpf(), "167.317.040-40");
   ASSERT_EQ(person->getRg(), "31.732.999-6");
@@ -78,4 +82,24 @@ TEST(PersonTest, SetShouldChangeValuesSeller) {
   ASSERT_EQ(person->getBirthday(), "01/01/2000");
   ASSERT_EQ(std::static_pointer_cast<person::Seller>(person)->getOffice(),
             "Joao Pessoa");
+}
+
+TEST(PersonTest, ShouldStartWithIDClientPF) {
+  std::unique_ptr<person::Person> person =
+      std::make_unique<person::ClientPF>(1);
+
+  ASSERT_EQ(person->getId(), 1);
+}
+
+TEST(PersonTest, ShouldStartWithIDClientPJ) {
+  std::unique_ptr<person::Person> person =
+      std::make_unique<person::ClientPJ>(1);
+
+  ASSERT_EQ(person->getId(), 1);
+}
+
+TEST(PersonTest, ShouldStartWithIDClientSeller) {
+  std::unique_ptr<person::Person> person = std::make_unique<person::Seller>(1);
+
+  ASSERT_EQ(person->getId(), 1);
 }

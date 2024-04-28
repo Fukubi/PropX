@@ -1,7 +1,10 @@
 #include "property.h"
 
 namespace property {
-Property::Property() : number(0), price(0.0f), qtdFloors(0), size(0) {}
+Property::Property() : number(0), price(0.0f), qtdFloors(0), size(0), id(0) {}
+
+Property::Property(long id)
+    : number(0), price(0.0f), qtdFloors(0), size(0), id(id) {}
 
 int Property::getNumber() { return number; }
 
@@ -22,6 +25,8 @@ std::string Property::getDistrict() { return district; }
 bool Property::getIsMobiliated() { return isMobiliated; }
 
 double Property::getCoordinates(char axis) { return coordinate[axis]; }
+
+long Property::getId() { return this->id; }
 
 void Property::setNumber(int number) {
   if (number < 0) {

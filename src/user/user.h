@@ -17,10 +17,20 @@ public:
   /// PlainText Encryption and has a Client Authorization
   User();
 
+  /// @brief Constructor setting the ID of the User, all the other values are
+  /// the same as the same default constructor
+  /// @param id The ID of the user
+  User(long id);
+
   /// @brief A client with a custom Authorization, all other values are the same
   /// as the default constructor
   /// @param authorization The Authorization level of the user
   User(Authorization authorization);
+
+  /// @brief A client with a custom Authorization and id, all other values are
+  /// the same as the default constructor
+  /// @param authorization The Authorization level of the user
+  User(Authorization authorization, long id);
 
   /// @brief Get username of User
   /// @return The username
@@ -31,6 +41,9 @@ public:
   /// @brief Get the Person assigned to this User
   /// @return The Person assigned to this User
   std::shared_ptr<person::Person> getPerson();
+  /// @brief Get the ID of the User
+  /// @return The ID of the user
+  long getId();
 
   /// @brief Set a new username to user
   /// @param username The new username
@@ -52,6 +65,8 @@ public:
   bool login(std::string password);
 
 private:
+  /// @brief The ID of the user on the database
+  long id;
   /// @brief Username that the user is refered as
   std::string username;
   /// @brief Encrypted password of current user
