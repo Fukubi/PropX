@@ -38,6 +38,8 @@ public:
 
   std::shared_ptr<user::User> getUserById(long id);
 
+  std::shared_ptr<user::User> getUserByUsername(std::string username);
+
   void updatePerson(std::shared_ptr<person::Person> person, PersonType type);
 
   void updateProperty(std::shared_ptr<property::Property> property);

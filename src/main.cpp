@@ -1,7 +1,13 @@
-#include <database-connector.h>
 #include <iostream>
+#include <login_window.h>
+
+#include <QApplication>
 
 int main(int argc, char *argv[]) {
-  database::DatabaseConnector dbConn;
-  return 0;
+  QApplication a(argc, argv);
+  ui::LoginWindow loginWindow;
+
+  loginWindow.show();
+
+  return a.exec();
 }

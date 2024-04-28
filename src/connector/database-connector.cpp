@@ -80,7 +80,8 @@ void DatabaseConnector::savePerson(std::shared_ptr<person::Person> person,
               txn.quote(person->getName()) + ", " +
               txn.quote(person->getCpf()) + ", " + txn.quote(person->getRg()) +
               ", " + txn.quote(person->getBirthday()) + ", " + txn.quote(cnpj) +
-              ", " + txn.quote(office) + ", " + pqxx::to_string(type) + ");");
+              ", " + txn.quote(office) + ", " +
+              pqxx::to_string(static_cast<int>(type)) + ");");
 
     txn.commit();
   } catch (const std::exception &e) {
@@ -120,12 +121,13 @@ void DatabaseConnector::savePurchase(
   try {
     pqxx::work txn{conn};
 
-    txn.exec0("INSERT INTO purchase (user_client_id, user_seller_id, "
-              "payment_method, payment_status) VALUES (" +
-              pqxx::to_string(purchase->getUserClient()->getId()) + ", " +
-              pqxx::to_string(purchase->getUserSeller()->getId()) + ", " +
-              pqxx::to_string(purchase->getPaymentMethod()) + ", " +
-              pqxx::to_string(purchase->getPaymentStatus()) + ");");
+    txn.exec0(
+        "INSERT INTO purchase (user_client_id, user_seller_id, "
+        "payment_method, payment_status) VALUES (" +
+        pqxx::to_string(purchase->getUserClient()->getId()) + ", " +
+        pqxx::to_string(purchase->getUserSeller()->getId()) + ", " +
+        pqxx::to_string(static_cast<int>(purchase->getPaymentMethod())) + ", " +
+        pqxx::to_string(static_cast<int>(purchase->getPaymentStatus())) + ");");
 
     for (size_t i = 0; i < purchase->getQtdProperties(); i++) {
       std::shared_ptr<property::Property> property = purchase->getProperty(i);
@@ -148,8 +150,8 @@ void DatabaseConnector::saveUser(std::shared_ptr<user::User> user) {
     txn.exec0(
         "INSERT INTO users (username, password, auth, person_id) VALUES (" +
         txn.quote(user->getUsername()) + ", " + txn.quote(user->getPassword()) +
-        ", " + pqxx::to_string(user->getAuthorization()) + ", " +
-        pqxx::to_string(user->getPerson()->getId()) + ");");
+        ", " + pqxx::to_string(static_cast<int>(user->getAuthorization())) +
+        ", " + pqxx::to_string(user->getPerson()->getId()) + ");");
 
     txn.commit();
   } catch (const std::exception &e) {
@@ -164,6 +166,8 @@ std::vector<std::shared_ptr<person::Person>> DatabaseConnector::listPersons() {
     pqxx::work txn{conn};
 
     pqxx::result res{txn.exec("SELECT * FROM persons;")};
+
+    txn.commit();
 
     for (auto row : res) {
       std::shared_ptr<person::Person> person;
@@ -187,8 +191,6 @@ std::vector<std::shared_ptr<person::Person>> DatabaseConnector::listPersons() {
 
       persons.push_back(person);
     }
-
-    txn.commit();
   } catch (const std::exception &e) {
     spdlog::error(e.what());
   }
@@ -204,13 +206,14 @@ std::shared_ptr<person::Person> DatabaseConnector::getPersonById(long id) {
 
     pqxx::result res{txn.exec(
         "SELECT * FROM persons WHERE id = " + pqxx::to_string(id) + ";")};
+    txn.commit();
 
     for (auto row : res) {
-      if (row["type"].as<PersonType>() == PersonType::CLIENT_PJ) {
+      if (row["type"].as<int>() == PersonType::CLIENT_PJ) {
         person = std::make_shared<person::ClientPJ>(row["id"].as<long>());
         std::static_pointer_cast<person::ClientPJ>(person)->setCnpj(
             row["cnpj"].c_str());
-      } else if (row["type"].as<PersonType>() == PersonType::SELLER) {
+      } else if (row["type"].as<int>() == PersonType::SELLER) {
         person = std::make_shared<person::Seller>(row["id"].as<long>());
         std::static_pointer_cast<person::Seller>(person)->setOffice(
             row["office"].c_str());
@@ -223,8 +226,6 @@ std::shared_ptr<person::Person> DatabaseConnector::getPersonById(long id) {
       person->setRg(row["rg"].c_str());
       person->setBirthday(row["birthday"].c_str());
     }
-
-    txn.commit();
   } catch (const std::exception &e) {
     spdlog::error(e.what());
   }
@@ -240,6 +241,8 @@ DatabaseConnector::listProperties() {
     pqxx::work txn{conn};
 
     pqxx::result res{txn.exec("SELECT * FROM properties;")};
+
+    txn.commit();
 
     for (auto row : res) {
       std::shared_ptr<property::Property> property =
@@ -259,8 +262,6 @@ DatabaseConnector::listProperties() {
 
       properties.push_back(property);
     }
-
-    txn.commit();
   } catch (const std::exception &e) {
     spdlog::error(e.what());
   }
@@ -280,6 +281,8 @@ DatabaseConnector::listPropertiesOfPurchase(long purchase_id) {
         "purchase_property where id_purchase = " +
         pqxx::to_string(purchase_id) + ");")};
 
+    txn.commit();
+
     for (auto row : res) {
       std::shared_ptr<property::Property> property =
           std::make_shared<property::Property>(row["id"].as<long>());
@@ -298,8 +301,6 @@ DatabaseConnector::listPropertiesOfPurchase(long purchase_id) {
 
       properties.push_back(property);
     }
-
-    txn.commit();
   } catch (const std::exception &e) {
     spdlog::error(e.what());
   }
@@ -316,16 +317,18 @@ DatabaseConnector::listPurchases() {
 
     pqxx::result resPurchase{txn.exec("SELECT * FROM purchase;")};
 
+    txn.commit();
+
     for (auto row : resPurchase) {
       std::shared_ptr<purchase::Purchase> purchase =
           std::make_shared<purchase::Purchase>(row["id"].as<long>());
 
       purchase->setUserClient(getUserById(row["user_client_id"].as<long>()));
       purchase->setUserSeller(getUserById(row["user_seller_id"].as<long>()));
-      purchase->setPaymentMethod(
-          row["payment_method"].as<purchase::PaymentMethod>());
-      purchase->setPaymentStatus(
-          row["payment_status"].as<purchase::PaymentStatus>());
+      purchase->setPaymentMethod(static_cast<purchase::PaymentMethod>(
+          row["payment_method"].as<int>()));
+      purchase->setPaymentStatus(static_cast<purchase::PaymentStatus>(
+          row["payment_status"].as<int>()));
 
       std::vector<std::shared_ptr<property::Property>> properties =
           listPropertiesOfPurchase(purchase->getId());
@@ -336,8 +339,6 @@ DatabaseConnector::listPurchases() {
 
       purchases.push_back(purchase);
     }
-
-    txn.commit();
   } catch (const std::exception &e) {
     spdlog::error(e.what());
   }
@@ -353,17 +354,47 @@ std::shared_ptr<user::User> DatabaseConnector::getUserById(long id) {
 
     pqxx::result resUser{txn.exec(
         "SELECT * FROM users WHERE id = " + pqxx::to_string(id) + ";")};
+    txn.commit();
 
     for (auto row : resUser) {
-      user = std::make_shared<user::User>(row["auth"].as<user::Authorization>(),
-                                          row["id"].as<long>());
+      user = std::make_shared<user::User>(
+          static_cast<user::Authorization>(row["auth"].as<int>()),
+          row["id"].as<long>());
 
       user->setUsername(row["username"].c_str());
       user->setPassword(row["password"].c_str());
       user->setPerson(getPersonById(row["person_id"].as<long>()));
+      user->setEncryption(std::make_unique<cryptography::BCrypt>());
     }
+  } catch (const std::exception &e) {
+    spdlog::error(e.what());
+  }
+
+  return user;
+}
+
+std::shared_ptr<user::User>
+DatabaseConnector::getUserByUsername(std::string username) {
+  std::shared_ptr<user::User> user;
+
+  try {
+    pqxx::work txn{conn};
+
+    pqxx::result resUser{txn.exec(
+        "SELECT * FROM users WHERE username = " + txn.quote(username) + ";")};
 
     txn.commit();
+
+    for (auto row : resUser) {
+      user = std::make_shared<user::User>(
+          static_cast<user::Authorization>(row["auth"].as<int>()),
+          row["id"].as<long>());
+
+      user->setUsername(row["username"].c_str());
+      user->setPassword(row["password"].c_str());
+      user->setPerson(getPersonById(row["person_id"].as<long>()));
+      user->setEncryption(std::make_unique<cryptography::BCrypt>());
+    }
   } catch (const std::exception &e) {
     spdlog::error(e.what());
   }
@@ -392,7 +423,7 @@ void DatabaseConnector::updatePerson(std::shared_ptr<person::Person> person,
               ", rg = " + txn.quote(person->getRg()) +
               ", birthday = " + txn.quote(person->getBirthday()) + ", cnpj " +
               txn.quote(cnpj) + ", office = " + txn.quote(office) +
-              ", type = " + pqxx::to_string(type) +
+              ", type = " + pqxx::to_string(static_cast<int>(type)) +
               " WHERE id = " + pqxx::to_string(person->getId()) + ";");
 
     txn.commit();
@@ -435,15 +466,16 @@ void DatabaseConnector::updatePurchase(
   try {
     pqxx::work txn{conn};
 
-    txn.exec0(
-        "INSERT purchase (user_client_id, user_seller_id, "
-        "payment_method, payment_status) SET user_client_id = " +
-        pqxx::to_string(purchase->getUserClient()->getId()) +
-        ", user_seller_id = " +
-        pqxx::to_string(purchase->getUserSeller()->getId()) +
-        ", payment_method = " + pqxx::to_string(purchase->getPaymentMethod()) +
-        ", payment_status = " + pqxx::to_string(purchase->getPaymentStatus()) +
-        " WHERE id = " + pqxx::to_string(purchase->getId()) + ");");
+    txn.exec0("INSERT purchase (user_client_id, user_seller_id, "
+              "payment_method, payment_status) SET user_client_id = " +
+              pqxx::to_string(purchase->getUserClient()->getId()) +
+              ", user_seller_id = " +
+              pqxx::to_string(purchase->getUserSeller()->getId()) +
+              ", payment_method = " +
+              pqxx::to_string(static_cast<int>(purchase->getPaymentMethod())) +
+              ", payment_status = " +
+              pqxx::to_string(static_cast<int>(purchase->getPaymentStatus())) +
+              " WHERE id = " + pqxx::to_string(purchase->getId()) + ");");
 
     txn.commit();
   } catch (const std::exception &e) {
@@ -458,8 +490,8 @@ void DatabaseConnector::updateUser(std::shared_ptr<user::User> user) {
     txn.exec0("INSERT INTO users (username, password, auth, person_id) SET "
               "username = " +
               txn.quote(user->getUsername()) +
-              ", password = " + txn.quote(user->getPassword()) +
-              ", auth = " + pqxx::to_string(user->getAuthorization()) +
+              ", password = " + txn.quote(user->getPassword()) + ", auth = " +
+              pqxx::to_string(static_cast<int>(user->getAuthorization())) +
               ", person_id = " + pqxx::to_string(user->getPerson()->getId()) +
               ") WHERE id = " + pqxx::to_string(user->getId()) + ";");
 

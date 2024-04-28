@@ -69,6 +69,10 @@
         "codecvt": "cpp",
         "regex": "cpp",
         "source_location": "cpp",
-        "ranges": "cpp"
+        "ranges": "cpp",
+        "qapplication": "cpp",
+        "fstream": "cpp",
+        "future": "cpp",
+        "stdfloat": "cpp"
     }
 }
