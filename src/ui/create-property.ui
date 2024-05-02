@@ -239,6 +239,9 @@
       <height>22</height>
      </rect>
     </property>
+    <property name="decimals">
+     <number>15</number>
+    </property>
     <property name="minimum">
      <double>-500000.000000000000000</double>
     </property>
@@ -267,6 +270,9 @@
       <width>201</width>
       <height>22</height>
      </rect>
+    </property>
+    <property name="decimals">
+     <number>15</number>
     </property>
     <property name="minimum">
      <double>-500000.000000000000000</double>

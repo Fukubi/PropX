@@ -171,9 +171,16 @@ void HomeWindow::initializePurchasesTable() {
 }
 
 void HomeWindow::on_btnCreateProperty_pressed() {
-    CreateProperty *createProperty = new CreateProperty(this);
+  CreateProperty *createProperty = new CreateProperty(this);
 
-    createProperty->show();
+  connect(createProperty, &CreateProperty::on_new_property_signal, this,
+          &HomeWindow::on_new_property_slot);
+
+  createProperty->show();
+}
+
+void HomeWindow::on_new_property_slot() {
+  initializePropertiesTable();
 }
 
 } // namespace ui

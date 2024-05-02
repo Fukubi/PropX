@@ -32,6 +32,8 @@ void CreateProperty::on_btnRegister_pressed() {
 
   dbConn.saveProperty(property);
 
+  emit on_new_property_signal();
+
   this->hide();
 }
 } // namespace ui
