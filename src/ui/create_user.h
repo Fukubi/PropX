@@ -19,7 +19,7 @@ public:
   void updatePersonsCombobox();
 
 public slots:
-    void on_btnSave_pressed();
+  void on_btnSave_pressed();
 
 private:
   Ui::CreateUser *ui;

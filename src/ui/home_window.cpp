@@ -177,6 +177,9 @@ void HomeWindow::initializePurchasesTable() {
 void HomeWindow::on_btnCreatePurchase_pressed() {
   CreatePurchase *createPurchase = new CreatePurchase(user, this);
 
+  connect(createPurchase, &CreatePurchase::on_new_purchase_signal, this,
+          &HomeWindow::on_new_purchase_slot);
+
   createPurchase->show();
 }
 
@@ -194,6 +197,8 @@ void HomeWindow::on_btnCreateUser_pressed() {
 
   createUser->show();
 }
+
+void HomeWindow::on_new_purchase_slot() { initializePurchasesTable(); }
 
 void HomeWindow::on_new_property_slot() { initializePropertiesTable(); }
 

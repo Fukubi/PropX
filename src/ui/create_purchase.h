@@ -8,6 +8,7 @@
 
 namespace ui {
 class CreatePurchase : public QMainWindow {
+  Q_OBJECT
 public:
   CreatePurchase(std::shared_ptr<user::User> user = nullptr,
                  QWidget *parent = nullptr);
@@ -26,6 +27,9 @@ public slots:
   void on_combo_box_index_changed();
 
   void on_btn_create_purchased_pressed();
+
+signals:
+  void on_new_purchase_signal();
 
 private:
   std::shared_ptr<user::User> loggedUser;

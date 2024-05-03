@@ -127,6 +127,8 @@ void CreatePurchase::on_btn_create_purchased_pressed() {
   }
 
   dbCon.savePurchase(purchase);
+
+  emit on_new_purchase_signal();
 }
 
 void CreatePurchase::on_combo_box_index_changed() {

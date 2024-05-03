@@ -27,6 +27,8 @@ public:
 public slots:
   void on_new_property_slot();
 
+  void on_new_purchase_slot();
+
 private:
   Ui::Home *ui;
   std::shared_ptr<user::User> user;
