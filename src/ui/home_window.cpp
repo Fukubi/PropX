@@ -1,6 +1,7 @@
 #include "home_window.h"
 #include "create_property.h"
 #include "create_purchase.h"
+#include "create_user.h"
 #include <spdlog/spdlog.h>
 
 namespace ui {
@@ -8,10 +9,6 @@ HomeWindow::HomeWindow(std::shared_ptr<user::User> user, QWidget *parent)
     : QMainWindow(parent), ui{new Ui::Home} {
   ui->setupUi(this);
   this->user = user;
-
-  if (user->getAuthorization() != user::Authorization::ADMINISTRATOR) {
-    ui->btnCreateUser->hide();
-  }
 
   if (user->getAuthorization() == user::Authorization::CLIENT) {
     ui->btnCreateProperty->hide();
@@ -23,6 +20,9 @@ HomeWindow::HomeWindow(std::shared_ptr<user::User> user, QWidget *parent)
 
   connect(ui->btnCreateProperty, &QPushButton::pressed, this,
           &HomeWindow::on_btnCreateProperty_pressed);
+
+  connect(ui->btnCreateUser, &QPushButton::pressed, this,
+          &HomeWindow::on_btnCreateUser_pressed);
 
   initializeTables();
 }
@@ -187,6 +187,12 @@ void HomeWindow::on_btnCreateProperty_pressed() {
           &HomeWindow::on_new_property_slot);
 
   createProperty->show();
+}
+
+void HomeWindow::on_btnCreateUser_pressed() {
+  CreateUser *createUser = new CreateUser(user, this);
+
+  createUser->show();
 }
 
 void HomeWindow::on_new_property_slot() { initializePropertiesTable(); }

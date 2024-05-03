@@ -198,6 +198,46 @@ std::vector<std::shared_ptr<person::Person>> DatabaseConnector::listPersons() {
   return persons;
 }
 
+std::vector<std::shared_ptr<person::Person>>
+DatabaseConnector::listNotRegisteredPersons() {
+  std::vector<std::shared_ptr<person::Person>> persons;
+
+  try {
+    pqxx::work txn{conn};
+
+    pqxx::result res{txn.exec("SELECT * from persons where id not in (select person_id from users);")};
+
+    txn.commit();
+
+    for (auto row : res) {
+      std::shared_ptr<person::Person> person;
+
+      if (row["type"].as<int>() == PersonType::CLIENT_PJ) {
+        person = std::make_shared<person::ClientPJ>(row["id"].as<long>());
+        std::static_pointer_cast<person::ClientPJ>(person)->setCnpj(
+            row["cnpj"].c_str());
+      } else if (row["type"].as<int>() == PersonType::SELLER) {
+        person = std::make_shared<person::Seller>(row["id"].as<long>());
+        std::static_pointer_cast<person::Seller>(person)->setOffice(
+            row["office"].c_str());
+      } else {
+        person = std::make_shared<person::ClientPF>(row["id"].as<long>());
+      }
+
+      person->setName(row["name"].c_str());
+      person->setCpf(row["cpf"].c_str());
+      person->setRg(row["rg"].c_str());
+      person->setBirthday(row["birthday"].c_str());
+
+      persons.push_back(person);
+    }
+  } catch (const std::exception &e) {
+    spdlog::error(e.what());
+  }
+
+  return persons;
+}
+
 std::shared_ptr<person::Person> DatabaseConnector::getPersonById(long id) {
   std::shared_ptr<person::Person> person;
 

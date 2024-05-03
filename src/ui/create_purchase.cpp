@@ -18,6 +18,9 @@ CreatePurchase::CreatePurchase(std::shared_ptr<user::User> user,
 
   connect(ui->ComboProperty, &QComboBox::currentIndexChanged, this,
           &CreatePurchase::on_combo_box_index_changed);
+
+  connect(ui->btnCreatePurchase, &QPushButton::pressed, this,
+          &CreatePurchase::on_btn_create_purchased_pressed);
 }
 
 void CreatePurchase::updateAvailableProperties() {
@@ -59,47 +62,48 @@ void CreatePurchase::updateComboBoxPaymentMethods() {
 
   QVariant paymentMethodData =
       QVariant::fromValue(purchase::PaymentMethod::DEBIT_CARD);
-  ui->comboPaymentMethod->setItemData(ui->comboPaymentMethod->count() - 1, paymentMethodData, Qt::UserRole);
+  ui->comboPaymentMethod->setItemData(ui->comboPaymentMethod->count() - 1,
+                                      paymentMethodData, Qt::UserRole);
 
   displayText = "Cartão de Crédito";
 
   ui->comboPaymentMethod->addItem(displayText);
 
-  paymentMethodData =
-      QVariant::fromValue(purchase::PaymentMethod::CREDIT_CARD);
-  ui->comboPaymentMethod->setItemData(ui->comboPaymentMethod->count() - 1, paymentMethodData, Qt::UserRole);
+  paymentMethodData = QVariant::fromValue(purchase::PaymentMethod::CREDIT_CARD);
+  ui->comboPaymentMethod->setItemData(ui->comboPaymentMethod->count() - 1,
+                                      paymentMethodData, Qt::UserRole);
 
   displayText = "Dinheiro";
 
   ui->comboPaymentMethod->addItem(displayText);
 
-  paymentMethodData =
-      QVariant::fromValue(purchase::PaymentMethod::MONEY);
-  ui->comboPaymentMethod->setItemData(ui->comboPaymentMethod->count() - 1, paymentMethodData, Qt::UserRole);
+  paymentMethodData = QVariant::fromValue(purchase::PaymentMethod::MONEY);
+  ui->comboPaymentMethod->setItemData(ui->comboPaymentMethod->count() - 1,
+                                      paymentMethodData, Qt::UserRole);
 
   displayText = "Pix";
 
   ui->comboPaymentMethod->addItem(displayText);
 
-  paymentMethodData =
-      QVariant::fromValue(purchase::PaymentMethod::PIX);
-  ui->comboPaymentMethod->setItemData(ui->comboPaymentMethod->count() - 1, paymentMethodData, Qt::UserRole);
+  paymentMethodData = QVariant::fromValue(purchase::PaymentMethod::PIX);
+  ui->comboPaymentMethod->setItemData(ui->comboPaymentMethod->count() - 1,
+                                      paymentMethodData, Qt::UserRole);
 
   displayText = "Boleto Bancário";
 
   ui->comboPaymentMethod->addItem(displayText);
 
-  paymentMethodData =
-      QVariant::fromValue(purchase::PaymentMethod::BANK_SLIP);
-  ui->comboPaymentMethod->setItemData(ui->comboPaymentMethod->count() - 1, paymentMethodData, Qt::UserRole);
+  paymentMethodData = QVariant::fromValue(purchase::PaymentMethod::BANK_SLIP);
+  ui->comboPaymentMethod->setItemData(ui->comboPaymentMethod->count() - 1,
+                                      paymentMethodData, Qt::UserRole);
 
   displayText = "Berries";
 
   ui->comboPaymentMethod->addItem(displayText);
 
-  paymentMethodData =
-      QVariant::fromValue(purchase::PaymentMethod::BERRIES);
-  ui->comboPaymentMethod->setItemData(ui->comboPaymentMethod->count() - 1, paymentMethodData, Qt::UserRole);
+  paymentMethodData = QVariant::fromValue(purchase::PaymentMethod::BERRIES);
+  ui->comboPaymentMethod->setItemData(ui->comboPaymentMethod->count() - 1,
+                                      paymentMethodData, Qt::UserRole);
 }
 
 void CreatePurchase::on_btn_create_purchased_pressed() {

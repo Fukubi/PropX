@@ -22,6 +22,8 @@ public:
 
   void on_btnCreateProperty_pressed();
 
+  void on_btnCreateUser_pressed();
+
 public slots:
   void on_new_property_slot();
 

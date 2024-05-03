@@ -27,6 +27,8 @@ public:
 
   std::vector<std::shared_ptr<person::Person>> listPersons();
 
+  std::vector<std::shared_ptr<person::Person>> listNotRegisteredPersons();
+
   std::shared_ptr<person::Person> getPersonById(long id);
 
   std::vector<std::shared_ptr<property::Property>> listProperties();

@@ -6,10 +6,12 @@ qt_add_executable(PropX
     ui/home_window.cpp
     ui/create_property.cpp
     ui/create_purchase.cpp
+    ui/create_user.cpp
     ui/login-window.ui
     ui/home-window.ui
     ui/create-property.ui
     ui/create-purchase.ui
+    ui/create-user.ui
     main.cpp
 )
 
