@@ -73,6 +73,8 @@
         "qapplication": "cpp",
         "fstream": "cpp",
         "future": "cpp",
-        "stdfloat": "cpp"
+        "stdfloat": "cpp",
+        "forward_list": "cpp",
+        "unordered_set": "cpp"
     }
 }

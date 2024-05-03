@@ -1,5 +1,6 @@
 #include "home_window.h"
 #include "create_property.h"
+#include "create_purchase.h"
 #include <spdlog/spdlog.h>
 
 namespace ui {
@@ -16,6 +17,9 @@ HomeWindow::HomeWindow(std::shared_ptr<user::User> user, QWidget *parent)
     ui->btnCreateProperty->hide();
     ui->btnCreatePurchase->hide();
   }
+
+  connect(ui->btnCreatePurchase, &QPushButton::pressed, this,
+          &HomeWindow::on_btnCreatePurchase_pressed);
 
   connect(ui->btnCreateProperty, &QPushButton::pressed, this,
           &HomeWindow::on_btnCreateProperty_pressed);
@@ -170,6 +174,12 @@ void HomeWindow::initializePurchasesTable() {
   }
 }
 
+void HomeWindow::on_btnCreatePurchase_pressed() {
+  CreatePurchase *createPurchase = new CreatePurchase(user, this);
+
+  createPurchase->show();
+}
+
 void HomeWindow::on_btnCreateProperty_pressed() {
   CreateProperty *createProperty = new CreateProperty(this);
 
@@ -179,8 +189,6 @@ void HomeWindow::on_btnCreateProperty_pressed() {
   createProperty->show();
 }
 
-void HomeWindow::on_new_property_slot() {
-  initializePropertiesTable();
-}
+void HomeWindow::on_new_property_slot() { initializePropertiesTable(); }
 
 } // namespace ui

@@ -34,7 +34,11 @@ public:
   std::vector<std::shared_ptr<property::Property>>
   listPropertiesOfPurchase(long purchase_id);
 
+  std::vector<std::shared_ptr<property::Property>> listPropertiesNotPurchased();
+
   std::vector<std::shared_ptr<purchase::Purchase>> listPurchases();
+
+  std::vector<std::shared_ptr<user::User>> listClientUsers();
 
   std::shared_ptr<user::User> getUserById(long id);
 

@@ -308,6 +308,43 @@ DatabaseConnector::listPropertiesOfPurchase(long purchase_id) {
   return properties;
 }
 
+std::vector<std::shared_ptr<property::Property>>
+DatabaseConnector::listPropertiesNotPurchased() {
+  std::vector<std::shared_ptr<property::Property>> properties;
+
+  try {
+    pqxx::work txn{conn};
+
+    pqxx::result res{txn.exec("SELECT * FROM properties WHERE id not in "
+                              "(select id_property from purchase_property);")};
+
+    txn.commit();
+
+    for (auto row : res) {
+      std::shared_ptr<property::Property> property =
+          std::make_shared<property::Property>(row["id"].as<long>());
+
+      property->setNumber(row["number"].as<int>());
+      property->setPrice(row["price"].as<float>());
+      property->setQtdFloors(row["qtd_floors"].as<int>());
+      property->setSize(row["size"].as<float>());
+      property->setState(row["state"].c_str());
+      property->setStreet(row["street"].c_str());
+      property->setCity(row["city"].c_str());
+      property->setDistrict(row["district"].c_str());
+      property->setIsMobiliated(row["isMobiliated"].as<bool>());
+      property->setCoordinates('x', row["x_coordinates"].as<double>());
+      property->setCoordinates('y', row["y_coordinates"].as<double>());
+
+      properties.push_back(property);
+    }
+  } catch (const std::exception &e) {
+    spdlog::error(e.what());
+  }
+
+  return properties;
+}
+
 std::vector<std::shared_ptr<purchase::Purchase>>
 DatabaseConnector::listPurchases() {
   std::vector<std::shared_ptr<purchase::Purchase>> purchases;
@@ -344,6 +381,35 @@ DatabaseConnector::listPurchases() {
   }
 
   return purchases;
+}
+
+std::vector<std::shared_ptr<user::User>> DatabaseConnector::listClientUsers() {
+  std::vector<std::shared_ptr<user::User>> users;
+
+  try {
+    pqxx::work txn{conn};
+
+    pqxx::result resUsers{txn.exec("SELECT * FROM users WHERE auth = 2;")};
+
+    txn.commit();
+
+    for (auto row : resUsers) {
+      std::shared_ptr<user::User> user = std::make_shared<user::User>(
+          static_cast<user::Authorization>(row["auth"].as<int>()),
+          row["id"].as<long>());
+
+      user->setUsername(row["username"].c_str());
+      user->setPassword(row["password"].c_str());
+      user->setPerson(getPersonById(row["person_id"].as<long>()));
+      user->setEncryption(std::make_unique<cryptography::BCrypt>());
+
+      users.push_back(user);
+    }
+  } catch (const std::exception &e) {
+    spdlog::error(e.what());
+  }
+
+  return users;
 }
 
 std::shared_ptr<user::User> DatabaseConnector::getUserById(long id) {

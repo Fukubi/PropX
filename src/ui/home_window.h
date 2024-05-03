@@ -18,6 +18,8 @@ public:
 
   void initializePurchasesTable();
 
+  void on_btnCreatePurchase_pressed();
+
   void on_btnCreateProperty_pressed();
 
 public slots:
